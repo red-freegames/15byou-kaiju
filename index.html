@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#f3f1ec">
 <title>15秒怪獣</title>
-<meta name="description" content="15秒で怪獣を描くと、線の特徴から能力・必殺技・「誕生の由来」を鑑定。描いた絵がそのまま10体の手描き怪獣とオートバトル。挑戦状URLで友達とも対戦できる無料ブラウザゲーム。">
+<meta name="description" content="15秒で自分だけの最強怪獣を描こう。トゲ・大きさ・描き込みから能力・必殺技・「誕生の由来」が決まり、描いた絵がそのまま10体のライバル怪獣とオートバトル。挑戦状URLで友達とも対戦できる無料ブラウザゲーム。">
 <meta property="og:title" content="15秒怪獣">
-<meta property="og:description" content="15秒で描いた怪獣が、そのまま戦う。トゲ・肉付き・描く速さから能力と誕生の由来を鑑定。あなたの怪獣は何から生まれた？">
+<meta property="og:description" content="15秒で最強の怪獣をつくれ。描いた形がそのまま能力と必殺技になり、10体のライバル怪獣と戦う。あなたの怪獣は何から生まれた？">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://red-freegames.github.io/15byou-kaiju/">
 <meta property="og:site_name" content="RED FREE GAMES">
 <meta property="og:locale" content="ja_JP">
-<meta property="og:image" content="https://red-freegames.github.io/15byou-kaiju/og.jpg">
+<meta property="og:image" content="https://red-freegames.github.io/15byou-kaiju/og.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://red-freegames.github.io/15byou-kaiju/og.jpg">
+<meta name="twitter:image" content="https://red-freegames.github.io/15byou-kaiju/og.jpg?v=2">
 <link rel="canonical" href="https://red-freegames.github.io/15byou-kaiju/">
 <style>
 :root{
@@ -238,13 +238,13 @@ body.sub .screen{padding-top:64px}
   <h1 class="logo"><span>15秒</span>怪獣</h1>
   <p class="lead">描いた絵が、そのまま戦う。</p>
   <div id="chBanner" class="ch-banner"></div>
-  <div class="alert"><i>🚨</i><div><small>怪獣災害対策本部より緊急要請</small>怪獣が出現しました。目撃者のあなたは<b>15秒以内</b>にその姿を描き残してください。描かれた姿から、対策本部が<b>能力と誕生の由来</b>を割り出します。</div></div>
+  <div class="alert"><i>🦖</i><div><small>きみだけの最強怪獣をつくろう</small>描ける時間は<b>15秒</b>だけ。トゲを生やす？体を大きくする？描いた形がそのまま<b>能力・必殺技・誕生の由来</b>になる。10体のライバル怪獣を倒して、最強を証明しよう。</div></div>
   <div class="card hero"><canvas id="titleCv" width="720" height="380"></canvas></div>
   <button class="btn acc xl" id="bStart">描きはじめる →</button>
   <ol class="steps">
-    <li><i>1</i><div><b>15秒</b>で怪獣を描く<small>最初の1画で計測開始。右向きに描くと口や尾が認識されやすい</small></div></li>
-    <li><i>2</i><div>能力と「誕生の由来」を鑑定<small>トゲ・肉付き・対称性・描く速さなど20以上の要素を解析。何から生まれた怪獣なのかも判明する</small></div></li>
-    <li><i>3</i><div>10体の手描き怪獣とオートバトル<small>敵の絵は「脅威度が高くなる描き方」のお手本。勝ったら結果画像や挑戦状URLで友達に勝負を挑もう</small></div></li>
+    <li><i>1</i><div><b>15秒</b>で最強の怪獣を描く<small>最初の1画で計測開始。トゲ・大きさ・描き込みで強さが変わる。右向きに描くと口や尾が認識されやすい</small></div></li>
+    <li><i>2</i><div>能力と「誕生の由来」が決まる<small>トゲ・肉付き・対称性・描く速さなど20以上の要素を解析。何から生まれた怪獣なのかもわかる</small></div></li>
+    <li><i>3</i><div>10体のライバル怪獣とオートバトル<small>ライバルの絵は「強くなる描き方」のお手本。勝ったら結果画像や挑戦状URLで友達に勝負を挑もう</small></div></li>
   </ol>
   <div class="free-tag">実況・配信・動画投稿・収益化OK</div>
   <p class="fine center">進捗はこのブラウザに自動保存されます</p>
@@ -260,7 +260,7 @@ body.sub .screen{padding-top:64px}
 <!-- 描画 -->
 <section id="sDraw" class="screen">
   <header class="draw-head">
-    <div><div class="eyebrow">緊急任務｜怪獣災害対策本部</div><div class="h2">目撃した怪獣を描け</div><div class="fine">右向きに描こう。時間いっぱい描き込むほど脅威度アップ</div></div>
+    <div><div class="eyebrow">15秒チャレンジ</div><div class="h2">最強の怪獣を描け</div><div class="fine">右向きに描こう。時間いっぱい描き込むほど強くなる</div></div>
     <div class="timer" id="timer"><svg viewBox="0 0 64 64"><circle class="trk" cx="32" cy="32" r="28"/><circle class="prg" id="tRing" cx="32" cy="32" r="28"/></svg><b id="tNum">15</b></div>
   </header>
   <div class="cvwrap" id="cvwrap"><canvas id="dcv"></canvas><div id="dOverlay"><div class="ov-icon">✍️</div><div>ペンをおろすとスタート</div><small>指を離しても時間は止まりません</small></div></div>
@@ -272,7 +272,7 @@ body.sub .screen{padding-top:64px}
   <div id="apWait" class="ap-wait"><div class="scan"></div><div>鑑定中…</div><small>線の特徴を解析しています</small></div>
   <div id="apBody" class="ap-body">
     <div class="card rv">
-      <div class="report-top"><span class="eyebrow">怪獣災害対策本部｜鑑定書</span><span class="fine mono" id="apNo"></span></div>
+      <div class="report-top"><span class="eyebrow">最強怪獣｜鑑定書</span><span class="fine mono" id="apNo"></span></div>
       <div class="hero-row">
         <div class="specimen"><canvas id="spriteBox" width="240" height="240"></canvas></div>
         <div class="stamp" id="apStamp"><div><small>脅威度</small><b id="apThreat"></b></div></div>
@@ -355,6 +355,7 @@ const CONFIG={
           burnRate:0.06, bleedRate:0.05},
   threat:[[328,'SS'],[318,'S'],[308,'A'],[291,'B'],[257,'C'],[228,'D'],[0,'E']],
   /* ステージ1〜10の敵倍率（手書きのお手本の能力に掛ける） */
+  challengeBytes:220,   // 挑戦状URLに載せる絵の上限バイト数（超えたら線を粗くして収める。1byte≒1.33文字）
   stageScale:[.69,.69,.85,.81,.87,.76,.72,1.05,.77,.98], statCap:140
 };
 
@@ -693,13 +694,13 @@ function originOf(f,vec){
   return{base,cause:c.n,phrase:c.ph,year,place,text:`${year}年、${place}で${c.ph}『${base}』が突然変異し、この怪獣が誕生した。`};
 }
 const VERDICT={
-  E:'脅威なし。ただの落書きと判断し、避難指示を解除しました。',
-  D:'警戒レベル1。近隣住民は念のため洗濯物を取り込んでください。',
-  C:'警戒レベル2。対策本部の職員が様子を見に向かいました。',
-  B:'警戒レベル3。周辺地域に避難指示が発令されました。',
-  A:'警戒レベル4。各国首脳による緊急会議が招集されました。',
-  S:'警戒レベル5。人類は全戦力をもって迎え撃ちます。',
-  SS:'測定不能。人類はあなたの絵に降伏しました。'
+  E:'まだ落書きの段階。世界はこの怪獣に気づいてすらいません。',
+  D:'近所の猫といい勝負。もっと描き込めば化けるかも。',
+  C:'町内では最強クラス。地元ニュースの片隅に載りました。',
+  B:'都市を揺るがす実力。周辺地域に避難指示が出ました。',
+  A:'国家級の怪獣。各国首脳による緊急会議が招集されました。',
+  S:'世界最強クラス。人類は全戦力で迎え撃つ構えです。',
+  SS:'測定不能。人類はあなたの怪獣に降伏しました。'
 };
 function derive(f){
   const vec=encodeVec(f),h=hashStr(vec),{stats:st,why}=calcStats(f),nm=makeName(h);
@@ -950,7 +951,64 @@ function decodeStrokes(s){
 const state={monster:null,strokes:null,challenge:null,stage:0,enemy:null,mode:'stage',last:null};
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));document.body.classList.toggle('sub',id!=='sTitle');window.scrollTo(0,0);}
 function urlBase(){return location.href.split('#')[0].split('?')[0];}
-function challengeUrl(){return urlBase()+'?c='+encodeVec(state.monster.f)+'&n='+encodeURIComponent(state.monster.name)+(state.strokes?'&d='+encodeStrokes(state.strokes):'');}
+/* --- 挑戦状URL（短縮版 ?k=）：特徴量・名前・絵を1本のバイト列に詰めて base64url 化 ---
+   [版=2][特徴量×43（0.01刻みの可変長整数）][名前の長さ＋UTF-8][絵：始点2byte＋差分1byte…＋終端0] */
+const VQ=100, GQ=3, CH_BYTES=CONFIG.challengeBytes;
+function quantF(f){const o={};for(const k of FK){let v=+f[k];if(!isFinite(v)||v<0)v=0;o[k]=Math.min(Math.round(v*VQ),2097151)/VQ;}return o;}
+function b64u(a){let s='';for(const b of a)s+=String.fromCharCode(b);return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function unb64u(s){const t=atob(s.replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(t,c=>c.charCodeAt(0));}
+function packStrokes(strokes,eps){
+  const out=[];
+  for(const s of strokes){
+    if(!s.p.length)continue;
+    const p=rdp(s.p,eps),gx=q=>Math.round(clamp(q.x,0,360)/GQ),gy=q=>Math.round(clamp(q.y,0,440)/GQ);
+    let px=gx(p[0]),py=gy(p[0]);out.push(px,py);
+    for(let i=1;i<p.length;i++){
+      const tx=gx(p[i]),ty=gy(p[i]),dx=tx-px,dy=ty-py,n=Math.ceil(Math.max(Math.abs(dx),Math.abs(dy))/7);
+      for(let j=1;j<=n;j++){   // 1歩は±7マスまで（長い線は等分）
+        const sx=Math.round(dx*j/n)-Math.round(dx*(j-1)/n),sy=Math.round(dy*j/n)-Math.round(dy*(j-1)/n);
+        out.push((sx+8)<<4|(sy+8));}
+      px=tx;py=ty;
+    }
+    out.push(0);
+  }
+  return out;
+}
+function unpackStrokes(a,i){
+  const out=[];
+  while(i+1<a.length){
+    let x=a[i++],y=a[i++];if(x>120||y>147)return null;const p=[{x:x*GQ,y:y*GQ,t:0}];
+    while(i<a.length&&a[i]!==0){const b=a[i++];x+=(b>>4)-8;y+=(b&15)-8;p.push({x:x*GQ,y:y*GQ,t:0});}
+    i++;out.push({p});if(out.length>300)return null;
+  }
+  return out.length?out:null;
+}
+function packChallenge(m,strokes){
+  const head=[2],fq=quantF(m.f);
+  for(const k of FK){let v=Math.round(fq[k]*VQ);while(v>127){head.push(v&127|128);v=Math.floor(v/128);}head.push(v);}
+  const nb=m.name&&m.name!==m.autoName?[...new TextEncoder().encode(m.name)].slice(0,48):[];
+  head.push(nb.length,...nb);
+  let body=[];
+  if(strokes){
+    for(const eps of[2,3,4,5.5,7.5,10,14]){body=packStrokes(strokes,eps);if(body.length<=CH_BYTES)break;}
+    if(body.length>CH_BYTES){   // 線が多すぎる絵：長い線から順に入るだけ入れる
+      const len=s=>s.p.reduce((a,q,i)=>i?a+Math.hypot(q.x-s.p[i-1].x,q.y-s.p[i-1].y):0,0);
+      const order=strokes.map((s,i)=>[len(s),i]).sort((a,b)=>b[0]-a[0]),keep=new Set();body=[];
+      for(const[,i]of order){keep.add(i);const t=packStrokes(strokes.filter((_,j)=>keep.has(j)),14);if(t.length>CH_BYTES){keep.delete(i);continue;}body=t;}
+    }
+  }
+  return b64u(head.concat(body));
+}
+function unpackChallenge(s){
+  try{
+    const a=unb64u(s);let i=0;if(a[i++]!==2)return null;
+    const f={};
+    for(const k of FK){let v=0,mul=1,b;do{b=a[i++];if(b===undefined)return null;v+=(b&127)*mul;mul*=128;}while(b&128);f[k]=v/VQ;}
+    const nl=a[i++];const name=nl?new TextDecoder().decode(a.slice(i,i+nl)):'';i+=nl;
+    return{f:quantF(f),name,strokes:unpackStrokes(a,i)};
+  }catch(e){return null;}
+}
+function challengeUrl(){return urlBase()+'?k='+packChallenge(state.monster,state.strokes);}
 
 /* ---- title ---- */
 (function titleArt(){
@@ -975,13 +1033,15 @@ function challengeUrl(){return urlBase()+'?c='+encodeVec(state.monster.f)+'&n='+
   g.save();g.translate(W*.47,H*.34);g.rotate(-.12);g.font='900 64px sans-serif';g.textAlign='center';g.lineWidth=10;g.strokeStyle='#16151a';g.strokeText('VS',0,0);g.fillStyle='#ff4a1c';g.fillText('VS',0,0);g.restore();
 })();
 function initChallenge(){
-  const q=new URLSearchParams(location.search),p=q.get('c');
-  if(!p)return;
-  const f=decodeVec(p);if(!f){toast('挑戦状URLが古いか壊れています',3000);return;}
+  const q=new URLSearchParams(location.search),k=q.get('k'),p=q.get('c');
+  if(!k&&!p)return;
+  // 新形式 ?k=（短縮）／旧形式 ?c=&n=&d= の両方を読める
+  const pk=k?unpackChallenge(k):null,f=pk?pk.f:(p?decodeVec(p):null);
+  if(!f){toast('挑戦状URLが古いか壊れています',3000);return;}
   state.challenge=derive(f);
-  const ds=decodeStrokes(q.get('d'));   // 相手が実際に描いた絵（無い古いURLは代役の絵）
+  const ds=pk?pk.strokes:decodeStrokes(q.get('d'));   // 相手が実際に描いた絵（無い場合は代役の絵）
   state.challenge.sprite=makePlayerSprite(ds||stageDrawing(STAGES[0]).strokes,'#7a1f2b');state.challenge.size=f.size;
-  const n=(q.get('n')||'').trim().slice(0,12);if(n)state.challenge.name=n;
+  const n=((pk?pk.name:q.get('n'))||'').trim().slice(0,12);if(n)state.challenge.name=n;
   const b=$('#chBanner');b.style.display='block';
   b.innerHTML=`⚔ 挑戦状が届きました<br>${esc(state.challenge.epi+state.challenge.name)}（脅威度${state.challenge.threat}）<small>『${esc(state.challenge.origin.base)}』が${esc(state.challenge.origin.cause)}で変異した怪獣。描いて受けて立とう</small>`;
 }
@@ -1038,7 +1098,8 @@ function dFinish(early){
   const f=analyze(DR.strokes,Math.min(CONFIG.drawTime,elapsed),early);
   if(!f){toast('何か描いてね！');dReset();return;}
   state.strokes=DR.strokes.map(s=>({p:s.p.slice()}));
-  state.monster=derive(f);state.monster.sprite=makePlayerSprite(state.strokes);
+  // 挑戦状URLと同じ精度に丸めてから鑑定（相手側で再現した能力値と完全一致させる）
+  state.monster=derive(Object.assign({},f,quantF(f)));state.monster.sprite=makePlayerSprite(state.strokes);
   state.last=null;
   sfx('click');showAppraisal(true);
 }
@@ -1054,9 +1115,9 @@ function showAppraisal(animate){
   const body=$('#apBody'),parts=[...body.querySelectorAll('.rv')];
   $('#apNo').textContent='No.'+String(hashStr(m.vec)%100000).padStart(5,'0');
   $('#apEpi').textContent=m.epi;$('#apName').value=m.name;$('#apThreat').textContent=m.threat;
-  $('#apVerdict').innerHTML=`<b>対策本部の判断</b>　${VERDICT[m.threat]}`;
+  $('#apVerdict').innerHTML=`<b>世界の反応</b>　${VERDICT[m.threat]}`;
   const o=m.origin;
-  const aiHTML=`<span class="eyebrow">誕生の由来｜対策本部 調査記録</span><div class="ai-guess">この怪獣の元は…<b>『${esc(o.base)}』</b></div>`+
+  const aiHTML=`<span class="eyebrow">誕生の由来｜この怪獣のルーツ</span><div class="ai-guess">この怪獣の元は…<b>『${esc(o.base)}』</b></div>`+
     `<div class="origin-tags"><span class="chip">📅 ${o.year}年</span><span class="chip">📍 ${esc(o.place)}</span><span class="chip">☢ ${esc(o.cause)}</span></div>`+
     `<div class="ai-note">${o.year}年、${esc(o.place)}で<em>${esc(o.phrase)}</em>『${esc(o.base)}』が突然変異し、この怪獣が誕生した。</div>`;
   const aiCard=$('#apAI');aiCard.innerHTML=aiHTML;
@@ -1081,7 +1142,7 @@ function showAppraisal(animate){
       if(i===0){const s=$('#apStamp');s.classList.remove('pop');setTimeout(()=>{s.classList.add('pop');sfx('stamp');},350);}
       if(p.id==='apStatsCard')setTimeout(bars,150);
       if(p.id==='apAI'){   // 照合中…のタメ → 発表
-        aiCard.innerHTML='<span class="eyebrow">誕生の由来｜対策本部 調査記録</span><div class="ai-guess wait">由来を調査中…</div>';
+        aiCard.innerHTML='<span class="eyebrow">誕生の由来｜この怪獣のルーツ</span><div class="ai-guess wait">ルーツを解析中…</div>';
         setTimeout(()=>{aiCard.innerHTML=aiHTML;sfx('stamp');i++;setTimeout(step,900);},1100);return;}
       i++;setTimeout(step,420);};step();},1500);
 }
@@ -1487,7 +1548,7 @@ function recordText(){const l=state.last;return l?(l.mode==='stage'?`STAGE${l.st
 /* ---- シェア（1パターン） ---- */
 function shareText(){
   const m=state.monster,o=m.origin,r=recordText();
-  return `【怪獣災害対策本部】15秒で描いた怪獣「${m.epi}${m.name}」脅威度${m.threat}\n由来：${o.year}年、${o.place}で${o.phrase}『${o.base}』から誕生${r?'\n戦績：'+r:''}`;
+  return `15秒で最強の怪獣を作った！「${m.epi}${m.name}」脅威度${m.threat}\n由来：${o.year}年、${o.place}で${o.phrase}『${o.base}』から誕生${r?'\n戦績：'+r:''}`;
 }
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function wrapText(g,text,x,y,maxW,lh){let line='',yy=y;for(const ch of text){if(g.measureText(line+ch).width>maxW&&line){g.fillText(line,x,yy);line=ch;yy+=lh;}else line+=ch;}if(line)g.fillText(line,x,yy);return yy;}
@@ -1498,7 +1559,7 @@ function makeShareImage(){
   g.fillStyle='rgba(22,21,26,.07)';for(let y=12;y<960;y+=24)for(let x=12;x<720;x+=24)g.fillRect(x,y,2,2);
   g.fillStyle='#16151a';rrect(g,40,36,640,64,20);g.fill();
   g.fillStyle='#ff3b3b';g.beginPath();g.arc(70,68,7,0,7);g.fill();
-  g.fillStyle='#fff';g.font=`900 24px ${F}`;g.textAlign='left';g.fillText('怪獣災害対策本部｜鑑定書',88,77);
+  g.fillStyle='#fff';g.font=`900 24px ${F}`;g.textAlign='left';g.fillText('最強怪獣｜鑑定書',88,77);
   g.textAlign='right';g.fillStyle='#ff9a76';g.font=`900 22px ${F}`;g.fillText('15秒怪獣',660,77);
   g.save();g.shadowColor='rgba(22,21,26,.15)';g.shadowBlur=30;g.shadowOffsetY=10;g.fillStyle='#fff';rrect(g,40,120,640,646,32);g.fill();g.restore();
   const sh=290;
