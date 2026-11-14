@@ -212,6 +212,8 @@ body.sub .screen{padding-top:64px}
 .ai-note em{font-style:normal;color:var(--acc)}
 .origin-tags{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
 .verdict{font-size:13px;font-weight:700;padding:10px 12px;border-radius:12px;background:var(--soft);margin-top:12px;line-height:1.55;text-align:left}
+.verdict .mock{display:block;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--sub)}
+.verdict .mock b{color:var(--ink)}
 .verdict b{color:var(--acc)}
 .sheet-bg{position:fixed;inset:0;background:rgba(22,21,26,.55);z-index:80;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
 .sheet-bg.on{display:flex}
@@ -247,7 +249,7 @@ body.sub .screen{padding-top:64px}
   <ol class="steps">
     <li><i>1</i><div><b>15秒</b>で最強の怪獣を描く<small>最初の1画で計測開始。トゲ・大きさ・描き込みで強さが変わる。右向きに描くと口や尾が認識されやすい</small></div></li>
     <li><i>2</i><div>能力と「誕生の由来」が決まる<small>トゲ・肉付き・対称性・描く速さなど20以上の要素を解析。何から生まれた怪獣なのかもわかる</small></div></li>
-    <li><i>3</i><div>10体のライバル怪獣とオートバトル<small>ライバルの絵は「強くなる描き方」のお手本。勝ったら結果画像や挑戦状URLで友達に勝負を挑もう</small></div></li>
+    <li><i>3</i><div>10体のライバル怪獣とオートバトル<small>ライバルは脅威度Dから始まり、ステージが進むほど強くなる。勝ったら結果画像や挑戦状URLで友達に勝負を挑もう</small></div></li>
   </ol>
   <div class="free-tag">実況・配信・動画投稿・収益化OK</div>
   <p class="fine center">進捗はこのブラウザに自動保存されます</p>
@@ -357,10 +359,15 @@ const CONFIG={
           accBase:75, accMin:50, accMax:98, confMiss:0.5,
           runawayCtl:50, runawayMul:0.9, apologyChance:0.12,
           burnRate:0.06, bleedRate:0.05},
-  threat:[[328,'SS'],[318,'S'],[308,'A'],[291,'B'],[257,'C'],[228,'D'],[0,'E']],
-  /* ステージ1〜10の敵倍率（手書きのお手本の能力に掛ける） */
+  /* 脅威度：戦闘力（基準怪獣との対戦成績 0〜1）のしきい値 */
+  threat:[[0.947,'SS'],[0.888,'S'],[0.809,'A'],[0.582,'B'],[0.216,'C'],[0.01,'D'],[0,'E']],
+  /* 基準怪獣48体：ランダムな落書き400枚を鑑定し、戦闘力の弱い順に均等に選んだもの
+     （体力,攻撃,防御,素早さ,制御,必殺技,飛行）。全員と1回ずつ戦った成績が戦闘力になる */
+  ref:{seeds:1, list:'67,25,50,39,60,roll,0 69,35,51,34,66,tackle,0 62,38,48,44,50,tackle,0 63,48,54,36,62,tackle,0 64,36,53,48,62,roll+mist,0 69,42,45,41,50,tackle,0 68,48,54,40,60,tackle,0 57,41,46,40,53,scales,1 66,44,46,35,49,grand,0 62,55,45,44,49,tackle,0 53,49,50,48,59,scribble,0 62,39,44,43,49,shock,1 61,60,51,45,54,tackle,0 53,43,46,58,65,burrow,0 62,55,55,36,60,grand,0 58,56,58,42,65,vine,0 65,69,56,41,56,uru,0 51,70,46,46,57,vine,0 60,72,47,42,42,scribble,0 65,69,55,47,61,tackle,0 59,71,53,50,57,tackle,0 62,81,57,42,55,beam,0 62,76,55,44,50,scribble,0 61,77,54,42,54,scribble,0 69,70,52,44,41,scribble,0 63,52,49,55,57,scales,1 54,60,47,48,58,scales,1 64,74,50,44,45,scribble,0 59,62,55,57,65,vine,0 58,64,45,42,42,shock,1 62,66,44,52,47,shock,1 63,75,57,50,58,missile,0 59,71,58,52,68,missile,0 63,73,53,51,48,scribble,0 56,74,49,46,52,scales,1 61,72,51,49,53,shock,1 57,69,40,61,46,shock,1 64,75,45,49,39,shock,1 52,62,45,62,48,scribble,1 55,72,44,56,48,scribble,1 56,68,48,55,63,vine,1 53,70,45,69,61,scales,1 61,77,53,52,60,scribble,1 57,79,53,56,51,vine,1 60,73,54,52,53,scribble,1 56,85,49,64,52,shock,1 59,82,54,62,50,scribble,1 58,84,57,58,54,missile,1'},
   challengeBytes:220,   // 挑戦状URLに載せる絵の上限バイト数（超えたら線を粗くして収める。1byte≒1.33文字）
-  stageScale:[.69,.69,.85,.81,.87,.76,.72,1.05,.77,.98], statCap:140
+  /* ステージ1〜10の敵の脅威度と倍率（手書きの絵の能力に掛ける）。倍率は対プレイヤー勝率で調整済み */
+  stageThreat:['D','D','C','C','B','B','A','A','S','SS'],
+  stageScale:[.582,.63,.811,.85,.854,.836,.852,1.055,.798,1.176], statCap:140
 };
 
 /* ===================== utils ===================== */
@@ -659,7 +666,6 @@ function epithet(f,st){
     ['牙剥く',f.teeth/6],['ギザギザの',f.jag*1.05],['一途な',f.strokes===1?1:0],['剛力の',st.atk/99],['不屈の',st.hp/99],['寡黙な',f.strokes<=2?.8:0],['混沌の',f.strokes>=12?1:0],['翔ける',f.wing*.95],['殻籠りの',f.encl*f.dens*1.2]];
   return c.sort((a,b)=>b[1]-a[1])[0][0];
 }
-function threatOf(st,f){const c=f?clamp(f.len/1.2)*.5+clamp(f.strokes/10)*.3+clamp(f.time/15)*.2:.7;const t=(st.hp+st.atk+st.def+st.spd+st.ctl)*(.88+.16*c);for(const[v,l]of CONFIG.threat)if(t>=v)return l;return'E';}
 /* ---- 誕生の由来：「何が」「何を浴びて」怪獣になったか（ゴジラ＝放射線と同じ発想） ---- */
 const ORIGIN_BASE=[
   ['肉まん',f=>f.circ*1.1+(f.spikes<2?.3:0)],['ドーナツ',f=>f.loops>=1&&f.encl>.5?.85:0],['月見だんご',f=>f.circ*.7+f.sym*.3],
@@ -708,8 +714,29 @@ const VERDICT={
 };
 function derive(f){
   const vec=encodeVec(f),h=hashStr(vec),{stats:st,why}=calcStats(f),nm=makeName(h);
-  return{f,vec,stats:st,why,skills:pickSkills(f,st),flying:f.wing>=.6,name:nm,autoName:nm,epi:epithet(f,st),threat:threatOf(st,f),origin:originOf(f,vec)};
+  const skills=pickSkills(f,st),flying=f.wing>=.6,pw=powerOf({name:nm,stats:st,skills,flying,vec});
+  return{f,vec,stats:st,why,skills,flying,name:nm,autoName:nm,epi:epithet(f,st),power:pw.power,mock:{w:pw.wins,n:pw.n},threat:threatFromPower(pw.power),origin:originOf(f,vec)};
 }
+
+/* ===================== 脅威度 ＝ 実戦の強さ =====================
+   よくある落書き怪獣の代表「基準怪獣」48体と実際にバトルをシミュレーションし、
+   勝敗とHPの残り具合の平均点（0〜1）を「戦闘力」とする。トゲ・速さ・飛行・必殺技の相性まで
+   すべて実戦の結果に表れるので、脅威度が1つ上なら8〜9割、2つ上ならほぼ確実に勝つ。 */
+const REFS=CONFIG.ref.list.split(' ').map((s,i)=>{
+  const a=s.split(','),stats={hp:+a[0],atk:+a[1],def:+a[2],spd:+a[3],ctl:+a[4]};
+  return{name:'基準怪獣',stats,skills:a[5].split('+'),flying:a[6]==='1',vec:'R'+i};
+});
+function powerOf(m){
+  const hpM=mkF(m).hpMax,id=m.vec||m.name;let s=0,n=0,wins=0;
+  for(const r of REFS)for(let k=0;k<CONFIG.ref.seeds;k++){
+    const sim=simulate(m,r,hashStr(id+'|'+r.vec+'|'+k),1),hp=sim.events[sim.events.length-1].hp;
+    const margin=hp[0]/hpM-hp[1]/mkF(r).hpMax;   // -1〜1
+    if(sim.winner===0)wins++;
+    s+=(sim.winner===0?.7:0)+.3*(.5+margin/2);n++;
+  }
+  return{power:Math.round(s/n*1000)/1000,wins,n};
+}
+function threatFromPower(p){for(const[v,l]of CONFIG.threat)if(p>=v)return l;return'E';}
 
 /* ===================== battle simulation (deterministic) ===================== */
 function mkF(m){const b=CONFIG.battle,hp=Math.round(m.stats.hp*b.hpScale);return{name:m.name,hpMax:hp,hp,atk:m.stats.atk,def:m.stats.def,spd:m.stats.spd,ctl:m.stats.ctl,flying:!!m.flying,skills:m.skills.length?m.skills.slice():['tackle'],am:1,dm:1,sm:1,acc:0,skip:0,burn:0,bleed:0,conf:0,evade:false,counter:false,skN:0};}
@@ -806,11 +833,15 @@ const STAGES=[
  {id:9,name:'ライメイリュウ',tag:'高速＋飛行',hue:272,mul:{hp:.9,atk:1.2,def:.9,spd:1.5,ctl:1},sk:['missile'],fly:true},
  {id:10,name:'カイジュウオウ',tag:'ボス',hue:0,mul:{hp:1.1,atk:1.1,def:1.1,spd:1.1,ctl:1.2},sk:['beam','napalm'],big:true}
 ];
-/* 敵の能力 ＝ 手書きの絵を鑑定した能力 × ステージ倍率 × タイプ倍率。脅威度は絵そのものの鑑定結果 */
-function stageEnemy(st){
-  const base=stageDrawing(st),sc=CONFIG.stageScale[st.id-1],stats={};
+/* 敵の能力 ＝ 手書きの絵を鑑定した能力 × ステージ倍率 × タイプ倍率。
+   敵の脅威度は「実際に戦った結果」で決めている：同じ脅威度のプレイヤーが
+   前半ステージ（1,3,5,7）には約65%、後半ステージ（2,4,6,8,9）には約50%で勝つよう倍率を調整済み
+   （ボスはS級でも勝率25%ほど）。
+   （敵は相性の偏った特化型が多いので、基準怪獣との平均成績ではなく対プレイヤーの勝率で測る） */
+function stageEnemy(st,scale){
+  const base=stageDrawing(st),sc=scale!=null?scale:CONFIG.stageScale[st.id-1],stats={};
   for(const k of STAT_KEYS)stats[k]=Math.round(clamp(base.stats[k]*sc*(st.mul[k]||1),1,CONFIG.statCap));
-  return{name:st.name,stats,skills:st.sk||base.skills,flying:st.fly!=null?!!st.fly:base.flying,threat:base.threat,origin:base.origin,sprite:base.sprite,size:base.f.size,big:!!st.big,vec:'S'+st.id};
+  return{name:st.name,stats,skills:st.sk||base.skills,flying:st.fly!=null?!!st.fly:base.flying,threat:CONFIG.stageThreat[st.id-1],origin:base.origin,sprite:base.sprite,size:base.f.size,big:!!st.big,vec:'S'+st.id};
 }
 
 /* ===================== save ===================== */
@@ -841,7 +872,7 @@ function makePlayerSprite(strokes,ink='#16151a'){
 }
 /* ===================== 手書きの敵キャラ =====================
    敵もプレイヤーと同じく「ストローク」で描かれている。描いた線を同じ鑑定ロジックに通して
-   能力・脅威度・必殺技・誕生の由来を決めるので、そのまま「脅威度が高くなる描き方のお手本」になる。 */
+   能力・必殺技・誕生の由来を決める。強さはステージ倍率で調整する（脅威度は stageEnemy 参照）。 */
 function HD(seed){
   const R=mulberry32(seed),S=[],J=1.6;
   const add=pts=>{if(pts.length>=2)S.push(pts.map(([x,y])=>[clamp(x+(R()-.5)*J,3,357),clamp(y+(R()-.5)*J,3,437)]));};
@@ -1119,7 +1150,7 @@ function showAppraisal(animate){
   const body=$('#apBody'),parts=[...body.querySelectorAll('.rv')];
   $('#apNo').textContent='No.'+String(hashStr(m.vec)%100000).padStart(5,'0');
   $('#apEpi').textContent=m.epi;$('#apName').value=m.name;$('#apThreat').textContent=m.threat;
-  $('#apVerdict').innerHTML=`<b>世界の反応</b>　${VERDICT[m.threat]}`;
+  $('#apVerdict').innerHTML=`<b>世界の反応</b>　${VERDICT[m.threat]}`+(m.mock?`<span class="mock">脅威度の根拠｜よくいる落書き怪獣${m.mock.n}体との模擬戦 <b>${m.mock.w}勝${m.mock.n-m.mock.w}敗</b></span>`:'');
   const o=m.origin;
   const aiHTML=`<span class="eyebrow">誕生の由来｜この怪獣のルーツ</span><div class="ai-guess">この怪獣の元は…<b>『${esc(o.base)}』</b></div>`+
     `<div class="origin-tags"><span class="chip">📅 ${o.year}年</span><span class="chip">📍 ${esc(o.place)}</span><span class="chip">☢ ${esc(o.cause)}</span></div>`+
@@ -1170,7 +1201,7 @@ function toStages(){
   STAGES.forEach(st=>{
     const open=st.id===1||save.cleared[st.id-1]||save.cleared[st.id],done=!!save.cleared[st.id];
     const b=document.createElement('button');b.className='stage';b.disabled=!open;
-    b.innerHTML=`<canvas width="128" height="124"></canvas><div class="st-info"><span class="eyebrow">Stage ${String(st.id).padStart(2,'0')}</span><b>${open?st.name:'？？？'}</b><span><span class="chip">${st.tag}</span> <span class="chip">お手本 脅威度${stageDrawing(st).threat}</span></span></div><span class="st-state ${done?'done':''}">${done?'✓':open?'›':'🔒'}</span>`;
+    b.innerHTML=`<canvas width="128" height="124"></canvas><div class="st-info"><span class="eyebrow">Stage ${String(st.id).padStart(2,'0')}</span><b>${open?st.name:'？？？'}</b><span><span class="chip">${st.tag}</span> <span class="chip">脅威度${stageEnemy(st).threat}</span></span></div><span class="st-state ${done?'done':''}">${done?'✓':open?'›':'🔒'}</span>`;
     const g=b.querySelector('canvas').getContext('2d');fitDraw(g,stageSprite(st),128,124,6);
     if(!open){g.globalCompositeOperation='source-in';g.fillStyle='#0d0b14';g.fillRect(0,0,128,124);}
     b.onclick=()=>startBattle(stageEnemy(st),'stage',st.id);list.appendChild(b);
