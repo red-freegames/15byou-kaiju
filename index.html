@@ -217,6 +217,9 @@ body.sub .screen{padding-top:64px}
 .sheet-bg.on{display:flex}
 .sheet{width:100%;max-width:460px;background:var(--bg);border-radius:26px 26px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px;max-height:94dvh;overflow:auto;animation:up .3s cubic-bezier(.2,.8,.2,1)}
 @keyframes up{from{transform:translateY(40px);opacity:0}}
+.btn-x{background:#000;color:#fff;font-size:17px}
+.btn-x .x{font-size:20px;margin-right:6px}
+#shNote a{color:var(--ink);font-weight:800}
 .sheet-h{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:17px}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:999px;padding:4px;box-shadow:inset 0 0 0 1.5px var(--line)}
 .seg button{font:inherit;font-weight:800;font-size:14px;border:0;background:none;border-radius:999px;height:38px;cursor:pointer;color:var(--sub)}
@@ -326,8 +329,9 @@ body.sub .screen{padding-top:64px}
 <div class="sheet-bg" id="shareBg"><div class="sheet">
   <div class="sheet-h">シェアする<button class="link" id="shClose">閉じる</button></div>
   <canvas id="shPrev" width="720" height="960"></canvas>
-  <div class="row"><button class="btn ghost sm" id="shImg">📷 画像を保存</button><button class="btn acc sm" id="shX">𝕏 でポスト</button></div>
-  <button class="btn ghost sm" id="shChal">⚔ 挑戦状URLをコピー</button>
+  <button class="btn btn-x" id="shX"><span class="x">𝕏</span>でポストする</button>
+  <p class="fine center" id="shNote"></p>
+  <div class="row"><button class="btn ghost sm" id="shImg">📷 画像を保存</button><button class="btn ghost sm" id="shChal">⚔ 挑戦状URLをコピー</button></div>
 </div></div>
 <div id="toast"></div>
 
@@ -1546,9 +1550,12 @@ $('#home').onclick=goHome;
 
 function recordText(){const l=state.last;return l?(l.mode==='stage'?`STAGE${l.stageId} ${l.win?'クリア':'敗北'}`:`挑戦状バトル ${l.win?'勝利':'敗北'}`):'';}
 /* ---- シェア（1パターン） ---- */
+const GAME_URL='https://red-freegames.github.io/15byou-kaiju/';
+// Xに載せる概要文（最後にゲームのURL。挑戦状URLは「挑戦状URLをコピー」から別に送る）
 function shareText(){
   const m=state.monster,o=m.origin,r=recordText();
-  return `15秒で最強の怪獣を作った！「${m.epi}${m.name}」脅威度${m.threat}\n由来：${o.year}年、${o.place}で${o.phrase}『${o.base}』から誕生${r?'\n戦績：'+r:''}`;
+  const base=/^https?:/.test(location.protocol)?urlBase():GAME_URL;
+  return `15秒で最強の怪獣を作った🦖\n「${m.epi}${m.name}」脅威度${m.threat}\n由来：${o.year}年、${o.place}で${o.phrase}『${o.base}』から誕生\n必殺技：${m.skills.map(i=>SK[i].n).join('／')}${r?'\n戦績：'+r:''}\nきみの怪獣は勝てる？\n#15秒怪獣\n${base}`;
 }
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 function wrapText(g,text,x,y,maxW,lh){let line='',yy=y;for(const ch of text){if(g.measureText(line+ch).width>maxW&&line){g.fillText(line,x,yy);line=ch;yy+=lh;}else line+=ch;}if(line)g.fillText(line,x,yy);return yy;}
@@ -1583,26 +1590,59 @@ function makeShareImage(){
   g.fillStyle='#16151a';g.font=`800 18px ${F}`;g.fillText('● 実況・配信・動画投稿・収益化OK',360,920);
   return c;
 }
+/* シートを開いた時点で画像（blob）と概要文を用意しておく。
+   スマホの共有シートはタップ直後に呼ばないと失敗するため、押してから画像を作らない */
+let shareCtx=null;
+const isTouch=()=>matchMedia('(pointer:coarse)').matches;
 function openShare(){
   if(!state.monster)return;
   $('#shareBg').classList.add('on');
   const src=makeShareImage(),g=$('#shPrev').getContext('2d');g.clearRect(0,0,720,960);g.drawImage(src,0,0);
+  const ctx={canvas:src,blob:null,text:shareText(),name:'kaiju15_'+Date.now().toString(36)+'.png'};
+  // 画像の書き出し（約1秒）が終わるまでボタンは押せない＝必ず画像つきでシェアされる
+  const bx=$('#shX'),bi=$('#shImg');bx.disabled=bi.disabled=true;bx.lastChild.textContent='画像を準備中…';
+  src.toBlob(b=>{ctx.blob=b;if(shareCtx===ctx){bx.disabled=bi.disabled=false;bx.lastChild.textContent='でポストする';}},'image/png');shareCtx=ctx;
+  $('#shNote').textContent=isTouch()?'画像と概要文つきで共有メニューが開きます。Xを選んでポストしよう':'画像を保存して、概要文入りのXの投稿画面を開きます。画像を添付してポストしよう';
 }
-$('#shClose').onclick=()=>$('#shareBg').classList.remove('on');
-$('#shareBg').addEventListener('click',e=>{if(e.target.id==='shareBg')$('#shareBg').classList.remove('on');});
+function closeShare(){$('#shareBg').classList.remove('on');}
+$('#shClose').onclick=closeShare;
+$('#shareBg').addEventListener('click',e=>{if(e.target.id==='shareBg')closeShare();});
 $('#apShare').onclick=openShare;$('#rShareOpen').onclick=openShare;
-$('#shImg').onclick=()=>{
-  makeShareImage().toBlob(async b=>{
-    if(!b){toast('画像の生成に失敗しました');return;}
-    const file=new File([b],'kaiju15.png',{type:'image/png'});
-    try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text:shareText()+' #15秒怪獣',url:challengeUrl()});return;}}catch(e){if(e&&e.name==='AbortError')return;}
-    const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=file.name;document.body.appendChild(a);a.click();a.remove();toast('PNGを保存しました。投稿に添付してね');
-  },'image/png');
-};
-$('#shX').onclick=()=>{
-  const u='https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText())+'&url='+encodeURIComponent(challengeUrl())+'&hashtags='+encodeURIComponent('15秒怪獣');
-  window.open(u,'_blank','noopener');
-};
+function downloadCard(){
+  const s=shareCtx,a=document.createElement('a');
+  a.download=s.name;a.href=s.blob?URL.createObjectURL(s.blob):s.canvas.toDataURL('image/png');
+  document.body.appendChild(a);a.click();a.remove();
+  if(s.blob)setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+// 新しいタブで開く（noopener 指定だと戻り値が常に null になり、ブロック判定を誤るため後から切る）
+function openInNewTab(url){let w=null;try{w=window.open(url,'_blank');}catch(e){}if(!w)return false;try{w.opener=null;}catch(e){}return true;}
+// PC：画像を保存（＋クリップボードにコピー）して、概要文入りの投稿画面を開く
+function openIntent(s){
+  const url='https://x.com/intent/post?text='+encodeURIComponent(s.text);
+  const opened=openInNewTab(url);
+  let copied=false;
+  try{if(s.blob&&navigator.clipboard&&window.ClipboardItem){navigator.clipboard.write([new ClipboardItem({'image/png':s.blob})]).then(()=>{copied=true;toast('画像を保存＆コピーしました。投稿画面で貼り付け（Ctrl/⌘+V）か添付してね',4200);}).catch(()=>{});}}catch(e){}
+  downloadCard();
+  setTimeout(()=>{if(!copied)toast('画像を保存しました。投稿画面で画像を添付してね',4200);},400);
+  const note=$('#shNote');
+  if(opened)note.textContent='画像は自動で保存されています。別タブで開いたXの投稿画面に添付してポストしよう';
+  else{note.textContent='投稿画面を自動で開けませんでした。こちらから開けます → ';const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.textContent='Xの投稿画面を開く';note.append(a);}
+}
+// スマホ：画像＋概要文つきで共有シートを開く（Xを選ぶ）。使えない環境はPCと同じ流れ
+function shareX(){
+  const s=shareCtx;if(!s)return;
+  track('share_x',{touch:isTouch()});
+  if(isTouch()&&s.blob&&navigator.canShare){
+    const file=new File([s.blob],s.name,{type:'image/png'});
+    if(navigator.canShare({files:[file]})){
+      navigator.share({files:[file],text:s.text}).catch(err=>{if(err&&err.name!=='AbortError')openIntent(s);});
+      return;
+    }
+  }
+  openIntent(s);
+}
+$('#shX').onclick=shareX;
+$('#shImg').onclick=()=>{if(!shareCtx)return;downloadCard();toast('画像を保存しました');};
 $('#shChal').onclick=async()=>{
   const u=challengeUrl();
   try{await navigator.clipboard.writeText(u);toast('挑戦状URLをコピーしました！');}
@@ -1629,6 +1669,8 @@ const GA_ID='G-FC7LD0DJTQ';
   s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(GA_ID);
   document.head.appendChild(s);
 })();
+// ゲーム内の出来事を記録する（失敗しても遊びには影響させない）
+function track(name,params){try{if(window.gtag)gtag('event',name,params||{});}catch(e){}}
 
 initChallenge();
 dReset();
