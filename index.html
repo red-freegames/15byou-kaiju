@@ -354,19 +354,19 @@ const CONFIG={
     ctl:{base:20, sym:25, smooth:12, steady:10, eyes:4, think:6, overdraw:14, fussy:2, crowd:1}
   },
   skill:{threshold:0.5, secondChance:0.04, tinySize:0.25, hugeSize:0.82, hugeCtl:50, statueSym:0.85, scribbleStrokes:15, rollCirc:0.75},
-  battle:{hpScale:2.6, dmgMul:1.6, maxTurns:20, skillEvery:2, dmgMin:0.9, dmgMax:1.1,
+  battle:{hpScale:2.6, dmgMul:1.2, maxTurns:20, skillEvery:2, dmgMin:0.9, dmgMax:1.1,
           accBase:75, accMin:50, accMax:98, confMiss:0.5,
           runawayCtl:50, runawayMul:0.9, apologyChance:0.12,
           burnRate:0.06, bleedRate:0.05},
   /* 脅威度：戦闘力（基準怪獣との対戦成績 0〜1）のしきい値 */
-  threat:[[0.964,'SS'],[0.861,'S'],[0.765,'A'],[0.598,'B'],[0.219,'C'],[0.014,'D'],[0,'E']],
+  threat:[[0.962,'SS'],[0.865,'S'],[0.78,'A'],[0.598,'B'],[0.22,'C'],[0.015,'D'],[0,'E']],
   /* 基準怪獣48体：ランダムな落書き400枚を鑑定し、戦闘力の弱い順に均等に選んだもの
      （体力,攻撃,防御,素早さ,制御,必殺技,飛行）。全員と1回ずつ戦った成績が戦闘力になる */
   ref:{seeds:1, list:'67,25,50,39,60,roll,0 69,35,51,34,66,tackle,0 62,38,48,44,50,tackle,0 63,48,54,36,62,tackle,0 64,36,53,48,62,roll+mist,0 69,42,45,41,50,tackle,0 68,48,54,40,60,tackle,0 57,41,46,40,53,scales,1 66,44,46,35,49,grand,0 62,55,45,44,49,tackle,0 53,49,50,48,59,scribble,0 62,39,44,43,49,shock,1 61,60,51,45,54,tackle,0 53,43,46,58,65,burrow,0 62,55,55,36,60,grand,0 58,56,58,42,65,vine,0 65,69,56,41,56,uru,0 51,70,46,46,57,vine,0 60,72,47,42,42,scribble,0 65,69,55,47,61,tackle,0 59,71,53,50,57,tackle,0 62,81,57,42,55,beam,0 62,76,55,44,50,scribble,0 61,77,54,42,54,scribble,0 69,70,52,44,41,scribble,0 63,52,49,55,57,scales,1 54,60,47,48,58,scales,1 64,74,50,44,45,scribble,0 59,62,55,57,65,vine,0 58,64,45,42,42,shock,1 62,66,44,52,47,shock,1 63,75,57,50,58,missile,0 59,71,58,52,68,missile,0 63,73,53,51,48,scribble,0 56,74,49,46,52,scales,1 61,72,51,49,53,shock,1 57,69,40,61,46,shock,1 64,75,45,49,39,shock,1 52,62,45,62,48,scribble,1 55,72,44,56,48,scribble,1 56,68,48,55,63,vine,1 53,70,45,69,61,scales,1 61,77,53,52,60,scribble,1 57,79,53,56,51,vine,1 60,73,54,52,53,scribble,1 56,85,49,64,52,shock,1 59,82,54,62,50,scribble,1 58,84,57,58,54,missile,1'},
   challengeBytes:220,   // 挑戦状URLに載せる絵の上限バイト数（超えたら線を粗くして収める。1byte≒1.33文字）
   /* ステージ1〜10の敵の脅威度と倍率（手書きの絵の能力に掛ける）。倍率は対プレイヤー勝率で調整済み */
   stageThreat:['D','D','C','C','B','B','A','A','S','SS'],
-  stageScale:[.632,.64,.826,.771,1.039,.847,.842,1.021,.749,1.077], statCap:140
+  stageScale:[.632,.641,.826,.771,1.108,.82,.792,1.028,.773,1.025], statCap:140
 };
 
 /* ===================== utils ===================== */
