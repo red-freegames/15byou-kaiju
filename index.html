@@ -210,7 +210,6 @@ body.sub .screen{padding-top:64px}
 .ai-guess.wait{font-size:16px;animation:blink .6s infinite}
 .ai-note{font-size:14px;font-weight:700;line-height:1.65;margin-top:10px;text-align:left;background:var(--soft);border-radius:12px;padding:10px 12px}
 .ai-note em{font-style:normal;color:var(--acc)}
-.origin-tags{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:10px}
 .verdict{font-size:13px;font-weight:700;padding:10px 12px;border-radius:12px;background:var(--soft);margin-top:12px;line-height:1.55;text-align:left}
 .verdict .mock{display:block;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--sub)}
 .verdict .mock b{color:var(--ink)}
@@ -1153,7 +1152,6 @@ function showAppraisal(animate){
   $('#apVerdict').innerHTML=`<b>世界の反応</b>　${VERDICT[m.threat]}`+(m.mock?`<span class="mock">脅威度の根拠｜よくいる落書き怪獣${m.mock.n}体との模擬戦 <b>${m.mock.w}勝${m.mock.n-m.mock.w}敗</b></span>`:'');
   const o=m.origin;
   const aiHTML=`<span class="eyebrow">誕生の由来｜この怪獣のルーツ</span><div class="ai-guess">この怪獣の元は…<b>『${esc(o.base)}』</b></div>`+
-    `<div class="origin-tags"><span class="chip">📅 ${o.year}年</span><span class="chip">📍 ${esc(o.place)}</span><span class="chip">☢ ${esc(o.cause)}</span></div>`+
     `<div class="ai-note">${o.year}年、${esc(o.place)}で<em>${esc(o.phrase)}</em>『${esc(o.base)}』が突然変異し、この怪獣が誕生した。</div>`;
   const aiCard=$('#apAI');aiCard.innerHTML=aiHTML;
   const sb=$('#spriteBox').getContext('2d');sb.clearRect(0,0,240,240);fitDraw(sb,m.sprite,240,240,10);
